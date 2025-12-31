@@ -15,9 +15,8 @@ services:
       POSTGRES_USER: chronicle
       POSTGRES_PASSWORD: chronicle
       POSTGRES_DB: chronicle
-      POSTGRES_HOST_AUTH_METHOD: md5 # Use MD5 instead of scram-sha-256
     ports:
-      - "5432:5432"
+      - "5433:5432" # Host port 5433
     volumes:
       - db-data:/var/lib/postgresql/data
       - ./infra/postgres-combined/init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -29,8 +28,6 @@ services:
       timeout: 3s
       retries: 5
     restart: unless-stopped
-    command: >
-      postgres -c listen_addresses='*' -c password_encryption=md5
 
   # ============================================
   # MESSAGE BUS (Event Distribution)
@@ -39,7 +36,8 @@ services:
   nats:
     image: nats:2.10-alpine
     container_name: chronicle-nats
-    command: [ "-js", "-sd", "/data" ]
+    # Added -m 8222 to enable HTTP monitoring
+    command: [ "-js", "-sd", "/data", "-m", "8222" ]
     ports:
       - "4222:4222" # Client connections
       - "8222:8222" # HTTP monitoring
