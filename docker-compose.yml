@@ -1,0 +1,235 @@
+version: '3.8'
+
+services:
+  # ============================================
+  # CockroachDB Cluster (Event Store)
+  # ============================================
+  
+  cockroach1:
+    image: cockroachdb/cockroach:v23.1.0
+    container_name: cockroach1
+    hostname: cockroach1
+    command: start --insecure --join=cockroach1,cockroach2,cockroach3
+    ports:
+      - "26257:26257"
+      - "8080:8080"
+    volumes:
+      - cockroach1-data:/cockroach/cockroach-data
+      - ./infra/cockroach/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - chronicle-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health?ready=1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  cockroach2:
+    image: cockroachdb/cockroach:v23.1.0
+    container_name: cockroach2
+    hostname: cockroach2
+    command: start --insecure --join=cockroach1,cockroach2,cockroach3
+    volumes:
+      - cockroach2-data:/cockroach/cockroach-data
+    networks:
+      - chronicle-net
+    depends_on:
+      - cockroach1
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health?ready=1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  cockroach3:
+    image: cockroachdb/cockroach:v23.1.0
+    container_name: cockroach3
+    hostname: cockroach3
+    command: start --insecure --join=cockroach1,cockroach2,cockroach3
+    volumes:
+      - cockroach3-data:/cockroach/cockroach-data
+    networks:
+      - chronicle-net
+    depends_on:
+      - cockroach1
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health?ready=1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Initialize CockroachDB cluster
+  cockroach-init:
+    image: cockroachdb/cockroach:v23.1.0
+    container_name: cockroach-init
+    command: init --insecure --host=cockroach1
+    networks:
+      - chronicle-net
+    depends_on:
+      cockroach1:
+        condition: service_healthy
+    restart: "no"
+
+  # ============================================
+  # NATS JetStream (Message Bus)
+  # ============================================
+  
+  nats:
+    image: nats:2.10-alpine
+    container_name: nats
+    command: 
+      - "-js"
+      - "-sd"
+      - "/data"
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+    volumes:
+      - nats-data:/data
+    networks:
+      - chronicle-net
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8222/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # ============================================
+  # PostgreSQL (Read Model)
+  # ============================================
+  
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres-read-model
+    environment:
+      POSTGRES_USER: chronicle
+      POSTGRES_PASSWORD: chronicle
+      POSTGRES_DB: chronicle_read
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./infra/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - chronicle-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U chronicle"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ============================================
+  # Application Services
+  # ============================================
+  
+  ledger-api:
+    build:
+      context: ./services/ledger-api
+      dockerfile: Dockerfile
+    container_name: ledger-api
+    environment:
+      - NODE_ENV=production
+      - PORT=4000
+      - COCKROACH_HOST=cockroach1:26257
+      - COCKROACH_DATABASE=chronicle
+      - COCKROACH_USER=root
+      - NATS_URL=nats://nats:4222
+    ports:
+      - "4000:4000"
+    networks:
+      - chronicle-net
+    depends_on:
+      cockroach1:
+        condition: service_healthy
+      nats:
+        condition: service_healthy
+    restart: unless-stopped
+
+  read-processor:
+    build:
+      context: ./services/read-processor
+      dockerfile: Dockerfile
+    container_name: read-processor
+    environment:
+      - NODE_ENV=production
+      - NATS_URL=nats://nats:4222
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=chronicle
+      - POSTGRES_PASSWORD=chronicle
+      - POSTGRES_DB=chronicle_read
+    networks:
+      - chronicle-net
+    depends_on:
+      nats:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  query-api:
+    build:
+      context: ./services/query-api
+      dockerfile: Dockerfile
+    container_name: query-api
+    environment:
+      - NODE_ENV=production
+      - PORT=4001
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=chronicle
+      - POSTGRES_PASSWORD=chronicle
+      - POSTGRES_DB=chronicle_read
+      - COCKROACH_HOST=cockroach1:26257
+      - COCKROACH_DATABASE=chronicle
+      - COCKROACH_USER=root
+    ports:
+      - "4001:4001"
+    networks:
+      - chronicle-net
+    depends_on:
+      postgres:
+        condition: service_healthy
+      cockroach1:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ============================================
+  # Next.js Dashboard
+  # ============================================
+  
+  dashboard:
+    build:
+      context: ./ui/dashboard
+      dockerfile: Dockerfile
+    container_name: dashboard
+    environment:
+      - NEXT_PUBLIC_LEDGER_API=http://localhost:4000
+      - NEXT_PUBLIC_QUERY_API=http://localhost:4001
+    ports:
+      - "3000:3000"
+    networks:
+      - chronicle-net
+    depends_on:
+      - ledger-api
+      - query-api
+    restart: unless-stopped
+
+# ============================================
+# Volumes
+# ============================================
+
+volumes:
+  cockroach1-data:
+  cockroach2-data:
+  cockroach3-data:
+  nats-data:
+  postgres-data:
+
+# ============================================
+# Networks
+# ============================================
+
+networks:
+  chronicle-net:
+    driver: bridge
