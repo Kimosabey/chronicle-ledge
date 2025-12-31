@@ -30,25 +30,23 @@
 
 ## Live Demos
 
-> **Note**: Full animated GIFs will be added after implementation. Current placeholders show the concept.
-
 ### High Availability in Action
 **Demo**: Kill a database node mid-transaction, writes continue!
 
 <p align="center">
-  <img src="./docs/gifs/ha-demo-placeholder.png" alt="High Availability Demo" width="700"/>
+  <img src="./docs/gifs/ha-demo.png" alt="High Availability Demo" width="750"/>
 </p>
 
-*Killing CockroachDB Node 2 - writes still succeed with 2/3 quorum*
+*CockroachDB maintains 2/3 quorum - Node 2 killed, writes still succeed*
 
-### Event Sourcing Time Travel
-**Demo**: Query account balance from any point in history
+### Event Sourcing Timeline
+**Demo**: Complete event history with time-travel capability
 
 <p align="center">
-  <img src="./docs/gifs/time-travel-placeholder.png" alt="Time Travel Demo" width="700"/>
+  <img src="./docs/gifs/event-sourcing-demo.png" alt="Event Sourcing Timeline" width="750"/>
 </p>
 
-*Replaying events to see balance at 2 PM yesterday*
+*Query account balance at any point in time by replaying events*
 
 ### Concurrent Write Protection
 **Demo**: 100 parallel withdrawals, zero overdrafts
