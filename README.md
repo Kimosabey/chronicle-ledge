@@ -155,7 +155,7 @@ chronicle-ledge/
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Docker & Docker Compose
@@ -191,7 +191,7 @@ http://localhost:3000
 
 ---
 
-## 📖 Documentation Index
+## Documentation Index
 
 1. **[HLD.md](./docs/HLD.md)** - System architecture, component design, trade-offs
 2. **[LLD.md](./docs/LLD.md)** - API contracts, data models, schemas
@@ -201,19 +201,19 @@ http://localhost:3000
 
 ---
 
-## 🎓 Learning Outcomes
+## Learning Outcomes
 
 After building this project, you will master:
-- ✅ **Event Sourcing** architecture pattern
-- ✅ **CockroachDB** distributed SQL clustering
-- ✅ **NATS** messaging for decoupled services
-- ✅ **Linearizability** and strong consistency models
-- ✅ **High Availability** through replication
-- ✅ **Chaos Engineering** principles
+- **Event Sourcing** architecture pattern
+- **CockroachDB** distributed SQL clustering
+- **NATS** messaging for decoupled services
+- **Linearizability** and strong consistency models
+- **High Availability** through replication
+- **Chaos Engineering** principles
 
 ---
 
-## 📊 Metrics & Observability
+## Metrics & Observability
 
 - Event ingestion rate (events/sec)
 - Read latency (p50, p95, p99)
@@ -222,7 +222,7 @@ After building this project, you will master:
 
 ---
 
-## 🔥 Interview Talking Points
+## Interview Talking Points
 
 > **Q**: "How do you ensure data consistency in distributed systems?"  
 > **A**: "In ChronicleLedger, I used CockroachDB's strict serializability to guarantee linearizable reads/writes. Events are append-only, so there's no update conflict. I demonstrate HA by killing nodes mid-transaction—writes still succeed due to Raft consensus."
@@ -232,7 +232,7 @@ After building this project, you will master:
 
 ---
 
-## 📝 License
+## License
 
 MIT License
 
