@@ -94,49 +94,17 @@ GET /accounts/ACC-001/balance-at?timestamp=2026-01-01T10:00:00Z
 
 ## 🏗️ Architecture
 
-### Data Flow
+### System Architecture
+![System Architecture](./docs/images/architecture.png)
+*Complete system architecture showing all components and data flow*
 
-```
-┌─────────────┐
-│  Dashboard  │ (Next.js)
-│  Port 3000  │
-└──────┬──────┘
-       │
-       ↓ Commands
-┌─────────────┐
-│ Ledger API  │ POST /commands/create-account
-│  Port 4002  │ POST /commands/deposit
-└──────┬──────┘ POST /commands/withdraw
-       │        POST /commands/transfer
-       ↓
-┌──────────────┐
-│ CockroachDB  │ Immutable Event Store
-│  Port 26257  │ (events table)
-└──────┬───────┘
-       │
-       ↓ Publish Events
-┌──────────────┐
-│     NATS     │ Message Bus
-│  Port 4222   │ (Pub/Sub)
-└──────┬───────┘
-       │
-       ↓ Subscribe
-┌──────────────┐
-│Read Processor│ Event Consumer
-└──────┬───────┘
-       │
-       ↓ Update Views
-┌──────────────┐
-│ PostgreSQL   │ Materialized Views
-│  Port 5433   │ (account_balance, transactions)
-└──────┬───────┘
-       │
-       ↓ Queries
-┌─────────────┐
-│  Query API  │ GET /accounts/:id
-│  Port 4001  │ GET /accounts/:id/transactions
-└─────────────┘ GET /accounts/:id/balance-at?timestamp=
-```
+### Complete Data Flow
+![Complete Workflows](./docs/images/complete-flows.png)
+*All 5 use cases: Create Account, Deposit, Transfer, Withdraw, and Time-Travel Query*
+
+### Transaction Lifecycle
+![Data Journey](./docs/images/data-journey.png)
+*The journey of $100 from user click to database consistency (~170ms total)*
 
 ---
 
