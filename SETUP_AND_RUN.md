@@ -1,5 +1,7 @@
 # Chronicle Ledger - Complete Setup Guide
 
+![Setup Guide](./docs/images/setup-guide.png)
+
 ## 🚀 Quick Start (5 Minutes)
 
 ### Prerequisites
