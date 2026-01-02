@@ -273,25 +273,6 @@ npm run dev
 
 ---
 
-## 📊 Architecture Highlights
-
-**Write Path (Commands)**:
-```
-UI → Ledger API → CockroachDB (events table) → NATS
-```
-
-**Read Path (Queries)**:
-```
-NATS → Read Processor → PostgreSQL → Query API → UI
-```
-
-**Time-Travel**:
-```
-Query API → CockroachDB (events WHERE created_at <= timestamp) → Replay events → Return balance
-```
-
----
-
 ## 🎓 Learn More
 
 - **Event Sourcing**: See `docs/EVENT_SOURCING.md`
