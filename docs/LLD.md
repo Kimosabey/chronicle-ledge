@@ -13,6 +13,9 @@
 
 ---
 
+![API Reference](./images/api-reference.png)
+*Complete API Endpoint Map - Commands & Queries*
+
 ## 1. Database Schemas
 
 ### 1.1 CockroachDB Event Store
@@ -592,16 +595,16 @@ interface MoneyWithdrawnEvent extends BaseEvent {
 
 ### Error Codes
 
-| Code | HTTP Status | Description |
-|------|-------------|-------------|
-| `ACCOUNT_NOT_FOUND` | 404 | Account ID does not exist |
-| `ACCOUNT_ALREADY_EXISTS` | 400 | Account ID already in use |
-| `INSUFFICIENT_FUNDS` | 422 | Balance too low for withdrawal |
-| `INVALID_AMOUNT` | 422 | Amount must be > 0 |
-| `INVALID_CURRENCY` | 422 | Currency not supported |
-| `ACCOUNT_SUSPENDED` | 403 | Account is suspended |
-| `TRANSFER_TO_SELF` | 422 | Cannot transfer to same account |
-| `INTERNAL_ERROR` | 500 | Unexpected server error |
+| Code                     | HTTP Status | Description                     |
+| ------------------------ | ----------- | ------------------------------- |
+| `ACCOUNT_NOT_FOUND`      | 404         | Account ID does not exist       |
+| `ACCOUNT_ALREADY_EXISTS` | 400         | Account ID already in use       |
+| `INSUFFICIENT_FUNDS`     | 422         | Balance too low for withdrawal  |
+| `INVALID_AMOUNT`         | 422         | Amount must be > 0              |
+| `INVALID_CURRENCY`       | 422         | Currency not supported          |
+| `ACCOUNT_SUSPENDED`      | 403         | Account is suspended            |
+| `TRANSFER_TO_SELF`       | 422         | Cannot transfer to same account |
+| `INTERNAL_ERROR`         | 500         | Unexpected server error         |
 
 ---
 

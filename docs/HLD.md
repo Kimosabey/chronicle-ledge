@@ -14,7 +14,13 @@
 
 ---
 
-## 1. System Overview
+##  System Overview
+
+![System Architecture](./images/architecture.png)
+*Complete Chronicle Ledger Architecture*
+
+![CQRS Pattern](./images/cqrs-pattern.png)
+*Command Query Responsibility Segregation*
 
 ### Purpose
 ChronicleLedger is a **distributed immutable audit ledger** that proves mastery of:
@@ -347,13 +353,13 @@ sequenceDiagram
 
 ## 5. Technology Decisions
 
-| Component | Technology | Why? | Alternative Considered |
-|-----------|-----------|------|----------------------|
-| **Event Store** | CockroachDB | Distributed SQL, Raft consensus, strict serializability | PostgreSQL (single-node), EventStoreDB |
-| **Message Bus** | NATS JetStream | Lightweight, fast, at-least-once delivery | Kafka (too heavy), RabbitMQ (clustering complexity) |
-| **Read Store** | PostgreSQL | Mature, excellent query performance, JSONB support | MongoDB (less SQL support), MySQL |
-| **API Framework** | Fastify | Fastest Node.js framework, schema validation | Express (slower), Hono |
-| **UI** | Next.js 14 | SSR, React Server Components, TypeScript | Vanilla React, Svelte |
+| Component         | Technology     | Why?                                                    | Alternative Considered                              |
+| ----------------- | -------------- | ------------------------------------------------------- | --------------------------------------------------- |
+| **Event Store**   | CockroachDB    | Distributed SQL, Raft consensus, strict serializability | PostgreSQL (single-node), EventStoreDB              |
+| **Message Bus**   | NATS JetStream | Lightweight, fast, at-least-once delivery               | Kafka (too heavy), RabbitMQ (clustering complexity) |
+| **Read Store**    | PostgreSQL     | Mature, excellent query performance, JSONB support      | MongoDB (less SQL support), MySQL                   |
+| **API Framework** | Fastify        | Fastest Node.js framework, schema validation            | Express (slower), Hono                              |
+| **UI**            | Next.js 14     | SSR, React Server Components, TypeScript                | Vanilla React, Svelte                               |
 
 ---
 

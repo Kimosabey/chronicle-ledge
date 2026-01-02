@@ -12,22 +12,28 @@ This document proves **Senior Engineering Maturity** by answering:
 
 **Interview Signal**: Junior engineers build features. **Senior engineers design for failure.**
 
+![Error Handling](./images/error-handling.png)
+*Comprehensive Error Scenarios and Recovery*
+
+![High Availability](./images/high-availability.png)
+*CockroachDB Node Failure and Recovery*
+
 ---
 
 ## 📋 Failure Catalog
 
 ### Failure Matrix
 
-| Component | Failure Mode | Impact | Recovery Time | Mitigation |
-|-----------|-------------|--------|---------------|------------|
-| CockroachDB Node 1 | Crash | ✅ None (2/3 quorum) | Instant | Raft leader election |
-| CockroachDB Node 2 | Crash | ✅ None (2/3 quorum) | Instant | Continue with 2 nodes |
-| CockroachDB 2+ Nodes | Crash | 🔴 Write Unavailable | Manual restart | Deploy 5-node cluster |
-| NATS | Crash | 🟡 Read lag | Instant (events in DB) | Persistent queue (JetStream) |
-| PostgreSQL | Crash | 🟡 Read unavailable | Manual restart | Add read replica |
-| Ledger API | Crash | 🟡 Writes unavailable | Load balancer failover | Deploy 2+ instances |
-| Read Processor | Crash | 🟡 Read lag increases | Auto-restart | Idempotent event handling |
-| Network Partition | Split brain | 🟡 Depends on partition | Automatic (Raft) | Network redundancy |
+| Component            | Failure Mode | Impact                 | Recovery Time          | Mitigation                   |
+| -------------------- | ------------ | ---------------------- | ---------------------- | ---------------------------- |
+| CockroachDB Node 1   | Crash        | ✅ None (2/3 quorum)    | Instant                | Raft leader election         |
+| CockroachDB Node 2   | Crash        | ✅ None (2/3 quorum)    | Instant                | Continue with 2 nodes        |
+| CockroachDB 2+ Nodes | Crash        | 🔴 Write Unavailable    | Manual restart         | Deploy 5-node cluster        |
+| NATS                 | Crash        | 🟡 Read lag             | Instant (events in DB) | Persistent queue (JetStream) |
+| PostgreSQL           | Crash        | 🟡 Read unavailable     | Manual restart         | Add read replica             |
+| Ledger API           | Crash        | 🟡 Writes unavailable   | Load balancer failover | Deploy 2+ instances          |
+| Read Processor       | Crash        | 🟡 Read lag increases   | Auto-restart           | Idempotent event handling    |
+| Network Partition    | Split brain  | 🟡 Depends on partition | Automatic (Raft)       | Network redundancy           |
 
 ---
 

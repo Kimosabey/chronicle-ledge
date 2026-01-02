@@ -1,4 +1,13 @@
 # 📚 Event Sourcing Deep Dive
+# Event Sourcing in ChronicleLedger
+
+> **TL;DR**: Instead of storing current state, we store *every state change* as an immutable event.
+
+![Event Sourcing Flow](./images/event-sourcing-flow.png)
+*Event Sourcing vs Traditional CRUD - Complete history preservation*
+
+---
+
 ## Understanding Immutable Event Logs
 
 ---
