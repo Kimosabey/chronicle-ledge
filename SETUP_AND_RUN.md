@@ -47,6 +47,22 @@ Navigate to: `http://localhost:3000`
 
 ---
 
+## 🎨 Visual System Overview
+
+### Complete Workflows
+![All System Flows](./docs/images/complete-flows.png)
+*All 5 use cases: Create Account → Deposit → Transfer → Withdraw → Time-Travel Query*
+
+### Transaction Lifecycle
+![Data Journey](./docs/images/data-journey.png)
+*The complete journey of $100 from user click to eventual consistency (~170ms)*
+
+### Testing Strategy
+![Testing Workflows](./docs/images/testing-strategy.png)
+*End-to-end testing, chaos engineering,and consistency verification*
+
+---
+
 ## 🧪 Testing & Verification
 
 ### Run End-to-End Test
