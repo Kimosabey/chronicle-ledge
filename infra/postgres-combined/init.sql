@@ -44,7 +44,7 @@ CREATE INDEX idx_idempotency_expires ON idempotency_keys(expires_at);
 
 -- Account balances (materialized view)
 CREATE TABLE IF NOT EXISTS account_balance (
-    account_id UUID PRIMARY KEY,
+    account_id VARCHAR(255) PRIMARY KEY,
     owner_name VARCHAR(255) NOT NULL,
     balance DECIMAL(20, 2) NOT NULL DEFAULT 0.00,
     currency VARCHAR(3) DEFAULT 'USD',
@@ -59,7 +59,7 @@ CREATE INDEX idx_account_status ON account_balance(status);
 -- Transaction history (denormalized)
 CREATE TABLE IF NOT EXISTS transactions (
     transaction_id UUID PRIMARY KEY,
-    account_id UUID NOT NULL REFERENCES account_balance(account_id),
+    account_id VARCHAR(255) NOT NULL REFERENCES account_balance(account_id),
     type VARCHAR(50) NOT NULL,
     amount DECIMAL(20, 2) NOT NULL,
     balance_after DECIMAL(20, 2) NOT NULL,
@@ -73,8 +73,8 @@ CREATE INDEX idx_transactions_type ON transactions(type);
 -- Transfers (link between accounts)
 CREATE TABLE IF NOT EXISTS transfers (
     transfer_id UUID PRIMARY KEY,
-    from_account_id UUID NOT NULL REFERENCES account_balance(account_id),
-    to_account_id UUID NOT NULL REFERENCES account_balance(account_id),
+    from_account_id VARCHAR(255) NOT NULL REFERENCES account_balance(account_id),
+    to_account_id VARCHAR(255) NOT NULL REFERENCES account_balance(account_id),
     amount DECIMAL(20, 2) NOT NULL,
     status VARCHAR(20) DEFAULT 'pending',
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP

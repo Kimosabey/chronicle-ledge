@@ -63,4 +63,4 @@ CREATE TABLE IF NOT EXISTS idempotency_keys (
     expires_at TIMESTAMPTZ DEFAULT (NOW() + INTERVAL '24 hours')
 );
 
-COMMIT;
+

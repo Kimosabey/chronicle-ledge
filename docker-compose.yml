@@ -30,6 +30,28 @@ services:
     restart: unless-stopped
 
   # ============================================
+  # EVENT STORE (CockroachDB)
+  # ============================================
+
+  cockroach:
+    image: cockroachdb/cockroach:v23.1.13
+    container_name: chronicle-cockroach
+    command: start-single-node --insecure
+    ports:
+      - "26257:26257"
+      - "8080:8080"
+    volumes:
+      - cockroach-data:/cockroach/cockroach-data
+    networks:
+      - chronicle-net
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/health?ready=1" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+
+  # ============================================
   # MESSAGE BUS (Event Distribution)
   # ============================================
 
@@ -57,6 +79,8 @@ services:
 # ============================================
 
 volumes:
+  cockroach-data:
+    name: chronicle-cockroach-data
   db-data:
     name: chronicle-db-data
   nats-data:
