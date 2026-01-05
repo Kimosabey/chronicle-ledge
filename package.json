@@ -26,9 +26,6 @@
         "docker:clean": "docker-compose down -v",
         "simulate": "node scripts/simulate-traffic.js",
         "simulate:continuous": "node scripts/simulate-traffic.js --continuous",
-        "chaos:kill-node": "docker stop cockroach2",
-        "chaos:resurrect-node": "docker start cockroach2",
-        "verify:cluster": "docker exec -it cockroach1 ./cockroach node status --insecure",
         "verify:consistency": "node scripts/verify-consistency.js"
     },
     "devDependencies": {

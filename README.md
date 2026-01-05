@@ -30,7 +30,7 @@
 ## 🚀 Quick Start
 
 **Full setup in 5 minutes**:  
-👉 See **[SETUP_AND_RUN.md](./SETUP_AND_RUN.md)** for complete instructions.
+👉 See **[docs/GETTING_STARTED.md](./docs/GETTING_STARTED.md)** for the complete walkthrough.
 
 ```bash
 # 1. Start infrastructure
@@ -120,16 +120,12 @@ Tests all features: Create → Deposit → Transfer → Withdraw → Time-Travel
 ```bash
 node scripts/verify-consistency.js
 ```
-Compares event count (CockroachDB) vs transaction count (PostgreSQL)
+Compares event store events vs read model consistency
 
-### Chaos Testing
+### Load Testing
 ```bash
 # Continuous traffic simulation
 node scripts/simulate-traffic.js --continuous
-
-# Kill a node and watch recovery
-docker stop chronicle-cockroach
-# Writes should continue (if using 3-node cluster)
 ```
 
 ---
@@ -137,8 +133,8 @@ docker stop chronicle-cockroach
 ## 📚 Documentation
 
 ### Setup & Operations
-- **[SETUP_AND_RUN.md](./SETUP_AND_RUN.md)** - Complete setup guide (START HERE)
-- **[DBEAVER_CONNECTION.md](./DBEAVER_CONNECTION.md)** - Database connection guide
+- **[docs/GETTING_STARTED.md](./docs/GETTING_STARTED.md)** - Complete walkthrough guide (START HERE)
+- **[docs/guides/DATABASE_CONNECTION.md](./docs/guides/DATABASE_CONNECTION.md)** - Database connection guide
 
 ### Architecture & Design
 - **[HLD.md](./docs/HLD.md)** - High-Level Design
