@@ -84,32 +84,54 @@ Chronicle Ledger implements Event Sourcing and CQRS patterns to provide:
 ## 🔄 Data Flow
 
 ### Write Path (Commands)
-```
-USER → Ledger API → CockroachDB (events)
-                 ↓
-               NATS (publish)
-                 ↓
-          Read Processor
-                 ↓
-    PostgreSQL (read model)
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant LedgerAPI
+    participant CockroachDB
+    participant NATS
+    participant ReadProcessor
+    participant PostgreSQL
+    
+    User->>LedgerAPI: POST /commands/deposit
+    LedgerAPI->>LedgerAPI: Validate command
+    LedgerAPI->>CockroachDB: Save event
+    CockroachDB-->>LedgerAPI: Event saved
+    LedgerAPI->>NATS: Publish event
+    LedgerAPI-->>User: Success response
+    NATS->>ReadProcessor: Event notification
+    ReadProcessor->>PostgreSQL: Update read model
 ```
 
 ### Read Path (Queries)
-```
-USER → Query API → PostgreSQL (read model)
-                ↓
-             Response
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant QueryAPI
+    participant PostgreSQL
+    
+    User->>QueryAPI: GET /accounts/ACC-001
+    QueryAPI->>PostgreSQL: Query account_balance
+    PostgreSQL-->>QueryAPI: Account data
+    QueryAPI-->>User: JSON response
 ```
 
 ### Time-Travel Query
-```
-USER → Query API → CockroachDB (event store)
-                ↓
-           Replay events up to timestamp
-                ↓
-        Calculate historical state
-                ↓
-             Response
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant QueryAPI
+    participant CockroachDB
+    
+    User->>Query API: GET /accounts/ACC-001/balance-at?timestamp=T
+    QueryAPI->>CockroachDB: Fetch events WHERE created_at <= T
+    CockroachDB-->>QueryAPI: Events list
+    QueryAPI->>QueryAPI: Replay events in order
+    QueryAPI->>QueryAPI: Calculate balance at time T
+    QueryAPI-->>User: Historical balance
 ```
 
 ---
