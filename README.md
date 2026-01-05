@@ -134,14 +134,10 @@ node scripts/simulate-traffic.js --continuous
 
 ### Setup & Operations
 - **[docs/GETTING_STARTED.md](./docs/GETTING_STARTED.md)** - Complete walkthrough guide (START HERE)
-- **[docs/guides/DATABASE_CONNECTION.md](./docs/guides/DATABASE_CONNECTION.md)** - Database connection guide
 
 ### Architecture & Design
-- **[HLD.md](./docs/HLD.md)** - High-Level Design
-- **[LLD.md](./docs/LLD.md)** - Low-Level Design (API Contracts)
+- **[ARCHITECTURE.md](./docs/ARCHITECTURE.md)** - System Architecture & API Contracts
 - **[EVENT_SOURCING.md](./docs/EVENT_SOURCING.md)** - Pattern explanation
-- **[FAILURE_SCENARIOS.md](./docs/FAILURE_SCENARIOS.md)** - Chaos engineering guide
-- **[LINEARIZABILITY.md](./docs/LINEARIZABILITY.md)** - Consistency guarantees
 - **[INTERVIEW.md](./docs/INTERVIEW.md)** - Interview preparation
 
 ---
