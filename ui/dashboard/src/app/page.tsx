@@ -62,15 +62,15 @@ export default function Dashboard() {
       const data = await response.json();
 
       if (response.ok) {
-        setMessage(`✅ Account created: ${data.event_id}`);
+        setMessage(`Account created successfully: ${data.event_id}`);
         setAccountId('');
         setOwnerName('');
         setInitialBalance('');
       } else {
-        setMessage(`❌ Error: ${data.error || 'Failed'}`);
+        setMessage(`Error: ${data.error || 'Failed'}`);
       }
     } catch (err) {
-      setMessage(`❌ Network error: ${err}`);
+      setMessage(`Network error: ${err}`);
     } finally {
       setLoading(false);
     }
@@ -90,10 +90,10 @@ export default function Dashboard() {
         setAccountData(data);
         loadTransactions(searchId);
       } else {
-        setMessage(`❌ Account not found`);
+        setMessage(`Account not found`);
       }
     } catch (err) {
-      setMessage(`❌ Network error: ${err}`);
+      setMessage(`Network error: ${err}`);
     } finally {
       setLoading(false);
     }
@@ -131,7 +131,7 @@ export default function Dashboard() {
       const data = await response.json();
 
       if (response.ok) {
-        setMessage(`✅ Transfer successful!`);
+        setMessage(`Transfer completed successfully!`);
         setTransferAmount('');
         setTransferDesc('');
         // Refresh if showing one of these accounts
@@ -139,10 +139,10 @@ export default function Dashboard() {
           setTimeout(searchAccount, 500);
         }
       } else {
-        setMessage(`❌ Error: ${data.error || 'Failed'}`);
+        setMessage(`Error: ${data.error || 'Failed'}`);
       }
     } catch (err) {
-      setMessage(`❌ Network error: ${err}`);
+      setMessage(`Network error: ${err}`);
     } finally {
       setLoading(false);
     }
