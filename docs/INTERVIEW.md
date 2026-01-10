@@ -64,7 +64,7 @@ INSERT INTO events (event_type, data) VALUES
 - ❌ Storage growth (mitigated by snapshots)
 
 **Proof in ChronicleLedger:**
-- See [`services/ledger-api/handlers/deposit.ts`](../services/ledger-api/handlers/deposit.ts)
+- See [`services/ledger-api/src/index.ts`](../services/ledger-api/src/index.ts)
 - Live demo: Time-travel query API (`GET /accounts/{id}/balance?at=<timestamp>`)
 
 ---
