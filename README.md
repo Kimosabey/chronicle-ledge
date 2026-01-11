@@ -142,32 +142,6 @@ node scripts/simulate-traffic.js --continuous
 
 ---
 
-## 🎯 Project Purpose
-
-This project demonstrates **senior-level** mastery of:
-
-### 1. Event Sourcing
-- **Append-only** immutable event log
-- **State derivation** from event replay
-- **Time-travel** debugging capabilities
-
-### 2. CQRS (Command Query Responsibility Segregation)
-- **Separate write model** (CockroachDB events)
-- **Optimized read model** (PostgreSQL materialized views)
-- **Async synchronization** via NATS
-
-### 3. Distributed Systems
-- **Strong consistency** (CockroachDB strict serializability)
-- **High availability** (fault tolerance)
-- **Event-driven architecture** (loose coupling)
-
-### 4. Modern Full-Stack
-- **Backend**: Node.js/TypeScript with Fastify
-- **Frontend**: Next.js 14 with React Server Components
-- **Infrastructure**: Docker Compose orchestration
-
----
-
 ## 🔧 Tech Stack
 
 | Component           | Technology        | Purpose                                  |
@@ -179,45 +153,6 @@ This project demonstrates **senior-level** mastery of:
 | **Read API**        | Node.js + Fastify | Query endpoints                          |
 | **Event Processor** | Node.js           | NATS consumer + view builder             |
 | **Dashboard**       | Next.js 14        | Admin UI with real-time updates          |
-
----
-
-## 💡 Learning Outcomes
-
-After exploring this project, you'll understand:
-
-- ✅ **Event Sourcing** architecture pattern
-- ✅ **CQRS** separation of reads/writes
-- ✅ **Time-travel queries** via event replay
-- ✅ **Distributed transactions** in CockroachDB
-- ✅ **Event-driven messaging** with NATS
-- ✅ **Materialized view** patterns
-- ✅ **High availability** through replication
-- ✅ **Chaos engineering** principles
-
----
-
-## 📈 Senior Engineering Proof Points
-
-### ✅ Event Sourcing Mastery
-- Immutable event log design
-- Event replay for state reconstruction
-- Time-travel query implementation
-
-### ✅ Distributed Systems
-- CockroachDB strict serializability
-- Raft consensus understanding
-- Partition tolerance handling
-
-### ✅ System Design
-- CQRS pattern implementation
-- Async event processing
-- Materialized view optimization
-
-### ✅ Full-Stack Execution
-- Backend API design (REST)
-- Modern React UI (Next.js 14)
-- Docker infrastructure setup
 
 ---
 
